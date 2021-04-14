@@ -4,22 +4,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from contacts.models import *
 from django.views.generic import UpdateView, CreateView, ListView
 from accounts.models import Account
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
 def homeView(request):
-    return render(request, 'contacts/home.html')
+    return render(request, 'home.html')
 
+@login_required
 def listContactsView(request):
     details = Contact.objects.all()
-    return render(request, 'contacts/list_contacts.html', {'details': details})
+    return render(request, 'list_contacts.html', {'details': details})
 
 class ContactsAddView(LoginRequiredMixin, CreateView):
 	model = Contact
-	template_name='contacts/add_contacts.html'
+	template_name='add_contacts.html'
 	fields = [ 'name', 'contact_number','description']
-	success_url=''
+	success_url='/'
 
 	def form_valid(self, form):
 		form.instance.user_name = self.request.user
