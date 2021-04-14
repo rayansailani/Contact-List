@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'signup' %}" class="text-center border border-light p-5" method="POST">
+    {% csrf_token %}
+    <h2>
+        Sign Up
+    </h2>
+    <br>
+    {% for field in registration_form %}
+    <p>
+        {{field}}
+        {% if field.help_text %}
+        {{field.help_text}}
+        {% endif %}
+    </p>
+    {% if field.errors %}
+    {% for error in field.errors %}
+    <span class="text-danger">{{error}}</span>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+</form>
+{% endblock %}
