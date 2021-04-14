@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'contacts',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +68,7 @@ TEMPLATES = [
         },
     },
 ]
+AUTH_USER_MODEL = 'accounts.Account'
 
 WSGI_APPLICATION = 'contact_list.wsgi.application'
 
