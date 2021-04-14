@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="offset-1 col-10" >
+    <h2 class="text-center">Add Contacts</h2>
     <form class ="form-group offset-4" method='POST' action=''>{% csrf_token %}
         <h2>{{title}}</h2>
         {{form|crispy}}

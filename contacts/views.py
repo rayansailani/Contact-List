@@ -9,16 +9,16 @@ from django.contrib.auth.decorators import login_required
 
 
 def homeView(request):
-    return render(request, 'home.html')
+    return render(request, 'contacts/home.html')
 
 @login_required
 def listContactsView(request):
     details = Contact.objects.all()
-    return render(request, 'list_contacts.html', {'details': details})
+    return render(request, 'contacts/list_contacts.html', {'details': details})
 
 class ContactsAddView(LoginRequiredMixin, CreateView):
 	model = Contact
-	template_name='add_contacts.html'
+	template_name='contacts/add_contacts.html'
 	fields = [ 'name', 'contact_number','description']
 	success_url='/'
 
