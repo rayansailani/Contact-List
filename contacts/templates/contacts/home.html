@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static%}
 {% block content %}
+{% csrf_token %} 
 <div class="row">
     <div class="col-6">
         <img class="center" src="{% static 'img/background.jpg' %}" alt="Contacts" height="600px" width=100% />
@@ -13,9 +14,11 @@
             {% if request.user.is_authenticated %}
             <a href="{% url 'listContacts' %}" class="col-3 btn btn-primary">List of Contacts</a>
             &nbsp;
-            <a href="{% url 'add' %}" class="col-3 btn btn-success">Add Contacts</button> 
+            <a href="{% url 'add' %}" class="col-3 btn btn-success">Add Contacts</a> 
             &nbsp;
-            <a class="col-3 btn btn-warning">Download Contacts</a>
+            <form class="col-3" method="POST">
+                <button class="btn btn-warning" type="submit" name="user" value="{{request.user}}">Download Contacts</button>
+            </form>
             {% else %}
             <a class="offset-2 col-3 btn btn-primary">Register</a>
             &nbsp; 
