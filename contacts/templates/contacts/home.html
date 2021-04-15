@@ -12,20 +12,20 @@
     }
 </style>
 <div class="row">
-    <div class="col-md-6 col-12">
+    <div class="col-6">
         <img class="center" src="{% static 'img/background.jpg' %}" alt="Contacts" height="600px" width=100% />
     </div>
-    <div class="col-md-6 col-12">
+    <div class="col-6">
         <div class="vertical-center col-12">
 
             <h1>Welcome to the home page!</h1>
             <div class="row">
 
                 {% if request.user.is_authenticated %}
-                <a href="{% url 'listContacts' %}" class="col-3 btn btn-primary" style="height:40px">Contacts List</a>
+                <a href="{% url 'listContacts' %}" class="col-3 btn btn-primary">Contacts List</a>
                 &nbsp;
                 &nbsp;
-                <a href="#" class="col-3 btn btn-success" style="height:40px">Add Contacts</a>
+                <a href="{% url 'add' %}" class="col-3 btn btn-success">Add Contacts</a>
                 <form class="col-3" method="POST">
                     <button class="btn btn-warning" type="submit" name="user" value="{{request.user}}">Download
                         Contacts</button>
