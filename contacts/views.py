@@ -10,56 +10,61 @@ from django.http import HttpResponse
 from contacts.forms import ContactUpdateForm
 import csv
 
+
 @csrf_exempt
 def homeView(request):
-	if request.method == 'POST':
-		user = request.POST.get('user')
-		response = HttpResponse(content_type='text/csv')
-		response['Content-Disposition'] = 'attachment; filename="Contact.csv"'
-		writer = csv.writer(response)
-		writer.writerow(['Name', 'Phone Number', 'Description'])
-		instance = Contact.objects.all()
-		for contact in instance:
-			if str(contact.user_name) == str(user):
-				writer.writerow([contact.name, contact.contact_number, contact.description])
-		return response
-	return render(request, 'contacts/home.html')
+    if request.method == 'POST':
+        user = request.POST.get('user')
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="Contact.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['Name', 'Phone Number', 'Description'])
+        instance = Contact.objects.all()
+        for contact in instance:
+            if str(contact.user_name) == str(user):
+                writer.writerow(
+                    [contact.name, contact.contact_number, contact.description])
+        return response
+    return render(request, 'contacts/home.html')
 
-@login_required
+
+@login_required(login_url='/accounts/login')
 def delete_contacts(request, pk):
-		queryset = Contact.objects.filter(id = pk)
-		if request.method == 'POST':
-			queryset.delete()
-			return redirect('listContacts')
-		return render(request, 'contacts/delete.html')
+    queryset = Contact.objects.filter(id=pk)
+    if request.method == 'POST':
+        queryset.delete()
+        return redirect('listContacts')
+    return render(request, 'contacts/delete.html')
 
 
-@login_required
+@login_required(login_url='/accounts/login')
 def listContactsView(request):
     details = Contact.objects.all()
     return render(request, 'contacts/list_contacts.html', {'details': details})
-	
-@login_required
-def update_contacts(request, pk):
-	queryset = Contact.objects.get(id=pk)
-	form = ContactUpdateForm(instance=queryset)
-	if request.method == 'POST':
-		form = ContactUpdateForm(request.POST, instance=queryset)
-		if form.is_valid():
-			form.save()
-			return redirect('listContacts')
 
-	context = {
-		'form':form
-	}
-	return render(request, 'contacts/add_contacts.html', context)
+
+@login_required(login_url='/accounts/login')
+def update_contacts(request, pk):
+    queryset = Contact.objects.get(id=pk)
+    form = ContactUpdateForm(instance=queryset)
+    if request.method == 'POST':
+        form = ContactUpdateForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            return redirect('listContacts')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'contacts/add_contacts.html', context)
+
 
 class ContactsAddView(LoginRequiredMixin, CreateView):
-	model = Contact
-	template_name='contacts/add_contacts.html'
-	fields = [ 'name', 'contact_number','description']
-	success_url='listContacts'
+    model = Contact
+    template_name = 'contacts/add_contacts.html'
+    fields = ['name', 'contact_number', 'description']
+    success_url = 'listContacts'
 
-	def form_valid(self, form):
-		form.instance.user_name = self.request.user
-		return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user_name = self.request.user
+        return super().form_valid(form)

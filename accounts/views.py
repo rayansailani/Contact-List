@@ -19,6 +19,8 @@ def loginView(request):
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
+                if 'next' in request.POST:
+                    return redirect(request.POST.get('next'))
                 return redirect('homepage')
     else:
         form = AuthenticationForm()
