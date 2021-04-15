@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from contacts.forms import ContactUpdateForm
 import csv
-
+from django.urls import reverse_lazy
 
 @csrf_exempt
 def homeView(request):
@@ -63,8 +63,8 @@ class ContactsAddView(LoginRequiredMixin, CreateView):
     model = Contact
     template_name = 'contacts/add_contacts.html'
     fields = ['name', 'contact_number', 'description']
-    success_url = 'listContacts'
-
+    success_url = reverse_lazy('listContacts')
+    
     def form_valid(self, form):
         form.instance.user_name = self.request.user
         return super().form_valid(form)
