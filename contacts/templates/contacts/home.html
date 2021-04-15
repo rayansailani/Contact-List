@@ -1,31 +1,43 @@
 {% extends 'base.html' %}
 {% load static%}
 {% block content %}
-{% csrf_token %} 
+{% csrf_token %}
+<style>
+    .vertical-center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+</style>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-12">
         <img class="center" src="{% static 'img/background.jpg' %}" alt="Contacts" height="600px" width=100% />
     </div>
-    <div class="col-6">
-        <h1 class="text-center">Welcome to the home page!</h1>
-        <h1 class="text-center">CONTACTS</h1>
-        <div class="row">
-           
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'listContacts' %}" class="col-3 btn btn-primary">List of Contacts</a>
-            &nbsp;
-            &nbsp;
-            <a href="{% url 'add' %}" class="col-3 btn btn-success">Add Contacts</a> 
-            <form class="col-3" method="POST">
-                <button class="btn btn-warning" type="submit" name="user" value="{{request.user}}">Download Contacts</button>
-            </form>
-            {% else %}
-            <a  href="{% url 'signup' %}" class="offset-2 col-3 btn btn-primary">Register</a>
-            &nbsp; 
-            <a  href="{% url 'login' %}" class="col-3 btn btn-warning">Login</a>
-            {% endif %}
+    <div class="col-md-6 col-12">
+        <div class="vertical-center col-12">
+
+            <h1>Welcome to the home page!</h1>
+            <div class="row">
+
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'listContacts' %}" class="col-3 btn btn-primary" style="height:40px">Contacts List</a>
+                &nbsp;
+                &nbsp;
+                <a href="#" class="col-3 btn btn-success" style="height:40px">Add Contacts</a>
+                <form class="col-3" method="POST">
+                    <button class="btn btn-warning" type="submit" name="user" value="{{request.user}}">Download
+                        Contacts</button>
+                </form>
+                {% else %}
+                <a href="{% url 'signup' %}" class="offset-2 col-3 btn btn-primary">Register</a>
+                &nbsp;
+                <a href="{% url 'login' %}" class="col-3 btn btn-warning">Login</a>
+                {% endif %}
+            </div>
         </div>
-       
+
     </div>
 </div>
 {% endblock %}
